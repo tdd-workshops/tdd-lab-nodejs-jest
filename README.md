@@ -1,6 +1,6 @@
 # NodeJS - Bootstrapping Jest Test Suite
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/CoderKungfu/tdd-lab-nodejs-jest)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/tdd-workshops/tdd-lab-nodejs-jest)
 
 Here's instructions on installing Jest and bootstrapping for [ES6 module compilation][babel] for Node.
 
