@@ -18,9 +18,9 @@ Pick whichever option is easiest for you:
    repository; they pick up `.devcontainer/devcontainer.json` automatically.
 
 The first time the container starts, `make install-dependencies` runs
-automatically (via `postCreateCommand`). It installs the dependencies listed in
-`package.json` into a `node_modules` folder in the workspace, so nobody has to
-set up NodeJS by hand before the workshop starts.
+automatically (via `postCreateCommand`). It installs the pinned packages listed
+in `package.json` into a `node_modules` folder in the workspace, so everyone in
+a workshop ends up with exactly the same Jest and Babel versions.
 
 ## Running the tests
 
@@ -72,8 +72,9 @@ Run `make help` to see all available targets.
   })
   ```
 
-- `.babelrc` — Babel configuration that lets Jest run the ES module syntax above
-- `package.json` — dependencies and the `npm test` script
+- `.babelrc` — tells Babel to compile for the Node version in the container,
+  which is what lets Jest run the ES module syntax above
+- `package.json` — pinned dependencies and the `npm test` script
 - `Makefile` — common tasks (`make help`)
 - `.devcontainer/devcontainer.json` — dev container configuration
 
@@ -131,8 +132,8 @@ that understands the [dev container spec](https://containers.dev/) — VS Code,
 GitHub Codespaces, Gitpod, and others — will build or reuse the same container
 image, so every participant in a workshop gets an identical setup. The old
 Gitpod-specific configuration has been replaced by this single, portable
-definition, and the duplicate npm/yarn lockfiles are gone — dependencies come
-from `package.json` and are installed by `make install-dependencies`.
+definition, and the duplicate npm/yarn lockfiles are gone — dependencies are
+pinned in `package.json` and installed by `make install-dependencies`.
 
 [Dev Containers]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
 [jest-matchers]: https://jestjs.io/docs/using-matchers
