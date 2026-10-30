@@ -17,10 +17,10 @@ Pick whichever option is easiest for you:
 3. **Other dev container compatible tools** (Gitpod, Cursor, etc.) — open this
    repository; they pick up `.devcontainer/devcontainer.json` automatically.
 
-The first time the container starts, `make install-dependencies` runs
-automatically (via `postCreateCommand`). It installs the pinned packages listed
-in `package.json` into a `node_modules` folder in the workspace, so everyone in
-a workshop ends up with exactly the same Jest and Babel versions.
+The first time the container starts, `npm install` runs automatically (via
+`postCreateCommand`). It installs the pinned packages listed in `package.json`
+into a `node_modules` folder in the workspace, so everyone in a workshop ends up
+with exactly the same Jest, Babel and ESLint versions.
 
 ## Running the tests
 
@@ -28,12 +28,6 @@ From a terminal inside the dev container:
 
 ```shell
 npm test
-```
-
-or:
-
-```shell
-make test
 ```
 
 You should see something like this:
@@ -51,7 +45,7 @@ Time:        0.294 s
 Ran all test suites.
 ```
 
-Run `make help` to see all available targets.
+Run `npm run` to list the available scripts (`test`, `test:watch`, `lint`).
 
 ## Project layout
 
@@ -77,7 +71,6 @@ Run `make help` to see all available targets.
 - `package.json` — pinned dependencies and the `npm test` / `npm run lint`
   scripts
 - `eslint.config.mjs` — ESLint flat config (see [Linting](#linting))
-- `Makefile` — common tasks (`make help`)
 - `.devcontainer/devcontainer.json` — dev container configuration
 
 ## Linting
@@ -86,12 +79,6 @@ From a terminal inside the dev container:
 
 ```shell
 npm run lint
-```
-
-or:
-
-```shell
-make lint
 ```
 
 The project uses [neostandard], the maintained successor to the old `standard`
@@ -155,7 +142,7 @@ GitHub Codespaces, Gitpod, and others — will build or reuse the same container
 image, so every participant in a workshop gets an identical setup. The old
 Gitpod-specific configuration has been replaced by this single, portable
 definition, and the duplicate npm/yarn lockfiles are gone — dependencies are
-pinned in `package.json` and installed by `make install-dependencies`.
+pinned in `package.json` and installed by `npm install`.
 
 [Dev Containers]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
 [neostandard]: https://github.com/neostandard/neostandard
