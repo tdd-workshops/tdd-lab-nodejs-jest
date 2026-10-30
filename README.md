@@ -1,114 +1,138 @@
 # NodeJS - Bootstrapping Jest Test Suite
 
-Here's instructions on installing Jest and bootstrapping for [ES6 module compilation][babel] for Node.
+This project is ready to go in a [dev container](https://containers.dev/), so you
+don't need NodeJS (or npm) installed on your machine at all — the
+[ghcr.io/tdd-workshops/devcontainer-js](https://ghcr.io/tdd-workshops/devcontainer-js)
+image provides everything needed.
 
-*__Note__: This guide assumes you have NodeJS installed.*
+## Getting started
 
-1. Create a new project folder for the code:
+Pick whichever option is easiest for you:
 
-	(*Assuming project name is `new_kata`*)
+1. **GitHub Codespaces** — on GitHub, click **Code → Create codespace on main**.
 
-	```bash
-	mkdir new_kata
-	cd new_kata
-	```
+2. **VS Code** — install the [Dev Containers] extension, open this folder and
+   run **Dev Containers: Reopen in Container**.
 
-2. In the new project folder, create `package.json`
+3. **Other dev container compatible tools** (Gitpod, Cursor, etc.) — open this
+   repository; they pick up `.devcontainer/devcontainer.json` automatically.
 
-	```bash
-	yarn init
-	```
+The first time the container starts, `make install-dependencies` runs
+automatically (via `postCreateCommand`). It installs the dependencies listed in
+`package.json` into a `node_modules` folder in the workspace, so nobody has to
+set up NodeJS by hand before the workshop starts.
 
-	or
+## Running the tests
 
-	```bash
-	npm init
-	```
+From a terminal inside the dev container:
 
-3. Add packages
+```shell
+npm test
+```
 
-	```bash
-	yarn add --dev jest @babel/core @babel/preset-env
-	```
+or:
 
-	or
+```shell
+make test
+```
 
-	```bash
-	npm install --save-dev jest @babel/core @babel/preset-env
-	```
+You should see something like this:
 
-4. Add test running script in `package.json`
+```shell
+> tdd-lab-nodejs-jest@1.0.0 test
+> jest
 
-	```json
-	"scripts": {
-	  "test": "jest",
-	  "test:watch": "jest --watch"
-	}
-	```
+ PASS  ./sum.test.js
 
-5. Create a `.babelrc` with these content for a [smart preset babel configuration][babel-preset-env]
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        0.294 s
+Ran all test suites.
+```
 
-	```json
-	{
-		"presets": [
-			["@babel/preset-env",
-				{
-					"targets": {
-						"node": "10"
-					}
-				}
-			]
-		]
-	}
-	```
+Run `make help` to see all available targets.
 
-6. Create a code (`sum.js`) file
+## Project layout
 
-	```javascript
-	const sum = (a, b) => a + b
-	export default sum
-	```
+- `sum.js` — the code under test:
 
-7. Create a test (`sum.test.js`) file
+  ```javascript
+  const sum = (a, b) => a + b
+  export default sum
+  ```
 
-	```javascript
-	import sum from './sum'
+- `sum.test.js` — the test suite:
 
-	test('adds 1 + 2 to equal 3', () => {
-	  expect(sum(1, 2)).toBe(3);
-	});
-	```
+  ```javascript
+  import sum from './sum'
 
-8. You can run the test:
+  test('adds 1 + 2 to equal 3', () => {
+    expect(sum(1, 2)).toBe(3)
+  })
+  ```
 
-	```bash
-	yarn test
-	```
+- `.babelrc` — Babel configuration that lets Jest run the ES module syntax above
+- `package.json` — dependencies and the `npm test` script
+- `Makefile` — common tasks (`make help`)
+- `.devcontainer/devcontainer.json` — dev container configuration
 
-	or
+## About Jest
 
-	```bash
-	npm test
-	```
+Jest is a test runner that bundles its own assertion library, so you write
+expectations as matcher calls instead of plain `assert` statements:
 
-	You should see this:
+```javascript
+expect(sum(1, 2)).toBe(3)
+```
 
-	```bash
-	yarn run v1.9.4
-	$ jest
-	 PASS  ./sum.test.js
-	  ✓ adds 1 + 2 to equal 3 (3ms)
+`toBe` compares with `Object.is`, which is what you want for primitives. For
+arrays, objects and other structures use `toEqual`, which compares recursively —
+and when they differ Jest tells you exactly which part didn't match. For example,
+append this to `sum.test.js`:
 
-	Test Suites: 1 passed, 1 total
-	Tests:       1 passed, 1 total
-	Snapshots:   0 total
-	Time:        1.286s
-	Ran all test suites.
-	✨  Done in 2.39s.
-	```
+```javascript
+test('lists are equivalent', () => {
+  expect([1]).toEqual([1, 2])
+})
+```
 
-9. Read up more about the types of test matchers available in Jest: [https://jestjs.io/docs/en/using-matchers][jest-matchers]
+This gives you the following output:
 
-[babel]: https://babeljs.io/docs/en/
-[babel-preset-env]: https://babeljs.io/docs/en/babel-preset-env
-[jest-matchers]: https://jestjs.io/docs/en/using-matchers
+```shell
+ FAIL  ./sum.test.js
+
+  ● lists are equivalent
+
+    expect(received).toEqual(expected) // deep equality
+
+    Expected: [1, 2]
+    Received: [1]
+
+       1 | test('lists are equivalent', () => {
+    >  2 |   expect([1]).toEqual([1, 2])
+         |               ^
+       3 | })
+
+      at Object.<anonymous> (sum.test.js:2:15)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 1 passed, 2 total
+```
+
+Read up more about the types of matchers available in Jest:
+[https://jestjs.io/docs/using-matchers][jest-matchers]
+
+## About dev containers
+
+Dev containers standardise a project's development environment in a
+`.devcontainer/devcontainer.json` file at the root of the repository. Any tool
+that understands the [dev container spec](https://containers.dev/) — VS Code,
+GitHub Codespaces, Gitpod, and others — will build or reuse the same container
+image, so every participant in a workshop gets an identical setup. The old
+Gitpod-specific configuration has been replaced by this single, portable
+definition, and the duplicate npm/yarn lockfiles are gone — dependencies come
+from `package.json` and are installed by `make install-dependencies`.
+
+[Dev Containers]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
+[jest-matchers]: https://jestjs.io/docs/using-matchers
