@@ -17,10 +17,10 @@ Pick whichever option is easiest for you:
 3. **Other dev container compatible tools** (Gitpod, Cursor, etc.) — open this
    repository; they pick up `.devcontainer/devcontainer.json` automatically.
 
-The first time the container starts, `npm install` runs automatically (via
-`postCreateCommand`). It installs the exact tree pinned by `package-lock.json`
-into a `node_modules` folder in the workspace, so everyone in a workshop ends up
-with exactly the same Jest, Babel and ESLint versions.
+The first time the container starts, `npm ci` runs automatically (via
+`postCreateCommand`). It installs exactly the dependency tree recorded in
+`package-lock.json` into a `node_modules` folder in the workspace, so everyone in
+a workshop ends up with the same Jest, Babel and ESLint versions.
 
 ## Running the tests
 
@@ -145,7 +145,7 @@ image, so every participant in a workshop gets an identical setup. The old
 Gitpod-specific configuration has been replaced by this single, portable
 definition, and the duplicated npm/yarn lockfiles are gone: dependencies are
 declared in `package.json`, resolved once into the committed
-`package-lock.json`, and installed by `npm install`.
+`package-lock.json`, and installed by `npm ci`.
 
 [Dev Containers]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
 [neostandard]: https://github.com/neostandard/neostandard
