@@ -18,7 +18,7 @@ Pick whichever option is easiest for you:
    repository; they pick up `.devcontainer/devcontainer.json` automatically.
 
 The first time the container starts, `npm install` runs automatically (via
-`postCreateCommand`). It installs the pinned packages listed in `package.json`
+`postCreateCommand`). It installs the exact tree pinned by `package-lock.json`
 into a `node_modules` folder in the workspace, so everyone in a workshop ends up
 with exactly the same Jest, Babel and ESLint versions.
 
@@ -63,8 +63,10 @@ Run `npm run` to list the available scripts (`test`, `test:watch`, `lint`).
 
 - `.babelrc` — tells Babel to compile for the Node version in the container,
   which is what lets Jest run the ES module syntax above
-- `package.json` — pinned dependencies and the `npm test` / `npm run lint`
+- `package.json` — the direct dependencies and the `npm test` / `npm run lint`
   scripts
+- `package-lock.json` — pins the full resolved dependency tree, so every
+  attendee installs the same transitive versions
 - `eslint.config.mjs` — ESLint flat config (see [Linting](#linting))
 - `.devcontainer/devcontainer.json` — dev container configuration
 
@@ -141,8 +143,9 @@ that understands the [dev container spec](https://containers.dev/) — VS Code,
 GitHub Codespaces, Gitpod, and others — will build or reuse the same container
 image, so every participant in a workshop gets an identical setup. The old
 Gitpod-specific configuration has been replaced by this single, portable
-definition, and the duplicate npm/yarn lockfiles are gone — dependencies are
-pinned in `package.json` and installed by `npm install`.
+definition, and the duplicated npm/yarn lockfiles are gone: dependencies are
+declared in `package.json`, resolved once into the committed
+`package-lock.json`, and installed by `npm install`.
 
 [Dev Containers]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
 [neostandard]: https://github.com/neostandard/neostandard
