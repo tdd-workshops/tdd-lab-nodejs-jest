@@ -33,15 +33,10 @@ npm test
 You should see something like this:
 
 ```shell
-> tdd-lab-nodejs-jest@1.0.0 test
-> jest
-
- PASS  ./sum.test.js
-
 Test Suites: 1 passed, 1 total
 Tests:       1 passed, 1 total
 Snapshots:   0 total
-Time:        0.294 s
+Time:        0.393 s
 Ran all test suites.
 ```
 
@@ -111,20 +106,25 @@ This gives you the following output:
 
 ```shell
  FAIL  ./sum.test.js
-
   ● lists are equivalent
 
     expect(received).toEqual(expected) // deep equality
 
-    Expected: [1, 2]
-    Received: [1]
+    - Expected  - 1
+    + Received  + 0
 
-       1 | test('lists are equivalent', () => {
-    >  2 |   expect([1]).toEqual([1, 2])
+      Array [
+        1,
+    -   2,
+      ]
+
+       6 |
+       7 | test('lists are equivalent', () => {
+    >  8 |   expect([1]).toEqual([1, 2])
          |               ^
-       3 | })
+       9 | })
 
-      at Object.<anonymous> (sum.test.js:2:15)
+      at Object.<anonymous> (sum.test.js:8:15)
 
 Test Suites: 1 failed, 1 total
 Tests:       1 failed, 1 passed, 2 total
