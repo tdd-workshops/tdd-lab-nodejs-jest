@@ -11,7 +11,7 @@
   "devDependencies": {
     "@babel/core": "8.0.10",
     "@babel/preset-env": "8.0.7",
-    "eslint": "9.39.5",
+    "eslint": "10.14.0",
     "jest": "30.5.2",
     "neostandard": "0.14.1"
   }
