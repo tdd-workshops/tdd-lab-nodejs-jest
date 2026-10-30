@@ -74,9 +74,31 @@ Run `make help` to see all available targets.
 
 - `.babelrc` — tells Babel to compile for the Node version in the container,
   which is what lets Jest run the ES module syntax above
-- `package.json` — pinned dependencies and the `npm test` script
+- `package.json` — pinned dependencies and the `npm test` / `npm run lint`
+  scripts
+- `eslint.config.mjs` — ESLint flat config (see [Linting](#linting))
 - `Makefile` — common tasks (`make help`)
 - `.devcontainer/devcontainer.json` — dev container configuration
+
+## Linting
+
+From a terminal inside the dev container:
+
+```shell
+npm run lint
+```
+
+or:
+
+```shell
+make lint
+```
+
+The project uses [neostandard], the maintained successor to the old `standard`
+ESLint config, via ESLint's flat config file `eslint.config.mjs`. The
+`env: ['jest']` option in that file declares the globals Jest injects at runtime
+(`test`, `expect` and friends); without it ESLint reports them as undefined in
+`sum.test.js`.
 
 ## About Jest
 
@@ -136,4 +158,5 @@ definition, and the duplicate npm/yarn lockfiles are gone — dependencies are
 pinned in `package.json` and installed by `make install-dependencies`.
 
 [Dev Containers]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
+[neostandard]: https://github.com/neostandard/neostandard
 [jest-matchers]: https://jestjs.io/docs/using-matchers

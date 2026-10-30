@@ -4,18 +4,15 @@
   "description": "TDD lab bootstrapping a Jest test suite, ready to go in a dev container",
   "private": true,
   "scripts": {
+    "lint": "eslint .",
     "test": "jest",
     "test:watch": "jest --watch"
   },
   "devDependencies": {
     "@babel/core": "8.0.10",
     "@babel/preset-env": "8.0.7",
-    "eslint": "^7.12.0",
-    "eslint-config-standard": "^15.0.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.2",
-    "jest": "30.5.2"
+    "eslint": "9.39.5",
+    "jest": "30.5.2",
+    "neostandard": "0.14.1"
   }
 }
