@@ -48,6 +48,8 @@ The project uses [neostandard] via ESLint's flat configuration.
 
 - `gilded_rose.js` — the legacy `Shop` code and the `Item` model
 - `gilded_rose.test.js` — the starting Jest test
+- `gilded_rose.characterisation.test.js` — the 30-day golden-master test
+- `texttests/ThirtyDays/stdout.gr` — the expected characterisation test output
 - `GildedRoseRequirements.md` — the kata requirements
 - `package.json` — dependencies and npm scripts
 - `package-lock.json` — the pinned dependency tree
