@@ -1,7 +1,7 @@
 {
   "name": "tdd-lab-nodejs-jest",
   "version": "1.0.0",
-  "description": "TDD lab bootstrapping a Jest test suite, ready to go in a dev container",
+  "description": "Gilded Rose Refactoring Kata with Jest, ready to go in a dev container",
   "private": true,
   "scripts": {
     "lint": "eslint .",

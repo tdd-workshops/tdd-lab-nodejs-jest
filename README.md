@@ -1,29 +1,30 @@
-# NodeJS - Bootstrapping Jest Test Suite
+# Node.js Jest - Gilded Rose Refactoring Kata
 
-This project is ready to go in a [dev container](https://containers.dev/), so you
-don't need NodeJS (or npm) installed on your machine at all — the
-[ghcr.io/tdd-workshops/devcontainer-js](https://ghcr.io/tdd-workshops/devcontainer-js)
-image provides everything needed.
+This repository contains the JavaScript version of Emily Bache's
+[Gilded Rose Refactoring Kata](https://github.com/emilybache/GildedRose-Refactoring-Kata),
+using Jest.
+
+Read [the requirements](GildedRoseRequirements.md), add tests to characterize the
+existing behavior, then refactor `Shop.updateQuality()` and add support for
+Conjured items. Do not alter the `Item` class or the `items` property.
 
 ## Getting started
 
-Pick whichever option is easiest for you:
+This project is ready to go in a [dev container](https://containers.dev/), so you
+don't need Node.js or npm installed on your machine. Pick whichever option is
+easiest for you:
 
 1. **GitHub Codespaces** — on GitHub, click **Code → Create codespace on main**.
    To open another branch, first select it from the branch selector above the
    file list. Then click **Code → Codespaces** and choose
    `Create codespace on <branch>`. The codespace will contain that branch's code.
-
 2. **VS Code** — install the [Dev Containers] extension, open this folder and
    run **Dev Containers: Reopen in Container**.
-
 3. **Other dev container compatible tools** (Gitpod, Cursor, etc.) — open this
    repository; they pick up `.devcontainer/devcontainer.json` automatically.
 
-The first time the container starts, `npm ci` runs automatically (via
-`postCreateCommand`). It installs exactly the dependency tree recorded in
-`package-lock.json` into a `node_modules` folder in the workspace, so everyone in
-a workshop ends up with the same Jest, Babel and ESLint versions.
+The first time the container starts, `npm ci` installs exactly the dependency
+tree recorded in `package-lock.json`.
 
 ## Running the tests
 
@@ -33,123 +34,25 @@ From a terminal inside the dev container:
 npm test
 ```
 
-You should see something like this:
-
-```shell
-Test Suites: 1 passed, 1 total
-Tests:       1 passed, 1 total
-Snapshots:   0 total
-Time:        0.393 s
-Ran all test suites.
-```
-
-Run `npm run` to list the available scripts (`test`, `test:watch`, `lint`).
-
-## Project layout
-
-- `sum.js` — the code under test:
-
-  ```javascript
-  const sum = (a, b) => a + b
-  export default sum
-  ```
-
-- `sum.test.js` — the test suite:
-
-  ```javascript
-  import sum from './sum'
-
-  test('adds 1 + 2 to equal 3', () => {
-    expect(sum(1, 2)).toBe(3)
-  })
-  ```
-
-- `.babelrc` — tells Babel to compile for the Node version in the container,
-  which is what lets Jest run the ES module syntax above
-- `package.json` — the direct dependencies and the `npm test` / `npm run lint`
-  scripts
-- `package-lock.json` — pins the full resolved dependency tree, so every
-  attendee installs the same transitive versions
-- `eslint.config.mjs` — ESLint flat config (see [Linting](#linting))
-- `.devcontainer/devcontainer.json` — dev container configuration
+For watch mode, run `npm run test:watch`.
 
 ## Linting
-
-From a terminal inside the dev container:
 
 ```shell
 npm run lint
 ```
 
-The project uses [neostandard], the maintained successor to the old `standard`
-ESLint config, via ESLint's flat config file `eslint.config.mjs`. The
-`env: ['jest']` option in that file declares the globals Jest injects at runtime
-(`test`, `expect` and friends); without it ESLint reports them as undefined in
-`sum.test.js`.
+The project uses [neostandard] via ESLint's flat configuration.
 
-## About Jest
+## Project layout
 
-Jest is a test runner that bundles its own assertion library, so you write
-expectations as matcher calls instead of plain `assert` statements:
-
-```javascript
-expect(sum(1, 2)).toBe(3)
-```
-
-`toBe` compares with `Object.is`, which is what you want for primitives. For
-arrays, objects and other structures use `toEqual`, which compares recursively —
-and when they differ Jest tells you exactly which part didn't match. For example,
-append this to `sum.test.js`:
-
-```javascript
-test('lists are equivalent', () => {
-  expect([1]).toEqual([1, 2])
-})
-```
-
-This gives you the following output:
-
-```shell
- FAIL  ./sum.test.js
-  ● lists are equivalent
-
-    expect(received).toEqual(expected) // deep equality
-
-    - Expected  - 1
-    + Received  + 0
-
-      Array [
-        1,
-    -   2,
-      ]
-
-       6 |
-       7 | test('lists are equivalent', () => {
-    >  8 |   expect([1]).toEqual([1, 2])
-         |               ^
-       9 | })
-
-      at Object.<anonymous> (sum.test.js:8:15)
-
-Test Suites: 1 failed, 1 total
-Tests:       1 failed, 1 passed, 2 total
-```
-
-Read up more about the types of matchers available in Jest:
-[https://jestjs.io/docs/using-matchers][jest-matchers]
-
-## About dev containers
-
-Dev containers standardise a project's development environment in a
-`.devcontainer/devcontainer.json` file at the root of the repository. Any tool
-that understands the [dev container spec](https://containers.dev/) — VS Code,
-GitHub Codespaces, Gitpod, and others — will build or reuse the same container
-image, so every participant in a workshop gets an identical setup. The old
-Gitpod-specific configuration has been replaced by this single, portable
-definition, and the duplicated npm/yarn lockfiles are gone: dependencies are
-declared in `package.json`, resolved once into the committed
-`package-lock.json`, and installed by `npm ci`.
+- `gilded_rose.js` — the legacy `Shop` code and the `Item` model
+- `gilded_rose.test.js` — the starting Jest test
+- `GildedRoseRequirements.md` — the kata requirements
+- `package.json` — dependencies and npm scripts
+- `package-lock.json` — the pinned dependency tree
+- `eslint.config.mjs` — ESLint flat configuration
+- `.devcontainer/devcontainer.json` — dev container configuration
 
 [Dev Containers]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
 [neostandard]: https://github.com/neostandard/neostandard
-[jest-matchers]: https://jestjs.io/docs/using-matchers
