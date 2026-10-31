@@ -10,6 +10,9 @@ image provides everything needed.
 Pick whichever option is easiest for you:
 
 1. **GitHub Codespaces** — on GitHub, click **Code → Create codespace on main**.
+   To open another branch, first select it from the branch selector above the
+   file list. Then click **Code → Codespaces** and choose
+   `Create codespace on <branch>`. The codespace will contain that branch's code.
 
 2. **VS Code** — install the [Dev Containers] extension, open this folder and
    run **Dev Containers: Reopen in Container**.
